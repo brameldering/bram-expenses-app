@@ -12,12 +12,17 @@ const ExpensesList = (props) => {
     return new Date(a.date) - new Date(b.date);
   });
 
+  const viewEditHandler = (event) => {
+    console.log("viewEditHandler in ExpensesList, id: " + event.target.id);
+    props.onViewEditExpenses(event.target.id);
+  };
+
   // if there are expenses then show them
   return (
     <ul className='expenses-list'>
       {expenses.map((item) => (
         <li key={item.id}>
-          <ExpenseItem key={item.id} item={item} />
+          <ExpenseItem key={item.id} item={item} onViewEdit={viewEditHandler} />
         </li>
       ))}
     </ul>

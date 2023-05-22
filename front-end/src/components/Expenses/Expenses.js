@@ -18,12 +18,17 @@ export default function Expenses(props) {
     return expense.date.getFullYear().toString() === filteredYear;
   });
 
+  const expenseViewEditHandler = (expenseId) => {
+    console.log("viewEditHandler in Expenses, id: " + expenseId);
+    props.onViewEditApp(expenseId);
+  };
+
   return (
     <div>
       <Card className='expenses'>
         <ExpensesFilter selected={filteredYear} onChangeFilter={filterChangeHandler} />
         <ExpensesChart items={filteredExpenses} />
-        <ExpensesList items={filteredExpenses} />
+        <ExpensesList items={filteredExpenses} onViewEditExpenses={expenseViewEditHandler} />
       </Card>
     </div>
   );

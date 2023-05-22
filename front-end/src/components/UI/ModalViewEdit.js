@@ -14,7 +14,7 @@ const statusModalStyle = {
   p: 4,
 };
 
-const ModalStatusMessage = (props) => {
+const ModalViewEdit = (props) => {
   return (
     <>
       <Modal
@@ -27,7 +27,7 @@ const ModalStatusMessage = (props) => {
             {props.statusModalTitle}
           </Typography>
           <Typography id='modal-modal-description' sx={{ mt: 2 }} align='center'>
-            {props.statusModalMessage}
+            Expense ID: {props.editExpenseId}
           </Typography>
         </Box>
       </Modal>
@@ -35,4 +35,4 @@ const ModalStatusMessage = (props) => {
   );
 };
 
-export default ModalStatusMessage;
+export default ModalViewEdit;
