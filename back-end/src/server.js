@@ -24,10 +24,27 @@ app.get("/api/expenses/:title", async (req, res) => {
 // api to add a new expense
 app.post("/api/expenses", async (req, res) => {
   console.log("app.post(/api/expenses)");
+  let result = {
+    acknowledged: false,
+  };
   const expense = req.body;
-  const result = await db.collection("expenses").insertOne(expense);
-  console.log(result);
-  res.json(result);
+  // TO DO: test the following
+  if (!expense) {
+    res.status(400).json({ error: "Invalid expense" });
+    return;
+  }
+  try {
+    result = await db.collection("expenses").insertOne(expense);
+    console.log("in try");
+    console.log(result);
+  } catch (error) {
+    console.log("Error in app.post(/api/expenses)");
+    console.log(error);
+  } finally {
+    console.log("in finally");
+    console.log(result);
+    res.json(result);
+  }
 });
 
 // allow for environment variable PORT with a default of 8000 (for dev)

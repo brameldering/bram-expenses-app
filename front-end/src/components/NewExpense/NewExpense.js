@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import ExpenseForm from "./ExpenseForm";
-import Card from "../UI/Card";
 import "./NewExpense.css";
 
 const NewExpense = (props) => {
@@ -10,6 +9,7 @@ const NewExpense = (props) => {
     const enteredExpense = {
       ...enteredExpenseData,
     };
+
     props.onAddExpense(enteredExpense);
     setIsEditing(false);
   };
@@ -24,7 +24,6 @@ const NewExpense = (props) => {
 
   return (
     <div className='new-expense'>
-      {props.insertStatus && <Card className='statusMessage'>{props.insertStatus}</Card>}
       {!isEditing && <button onClick={startEditingHandler}>Add New Expense</button>}
       {isEditing && (
         <ExpenseForm onSaveExpenseData={saveExpensesHandler} onCancel={stopEditingHandler} />

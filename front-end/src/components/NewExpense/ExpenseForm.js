@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./ExpenseForm.css";
-import roundCurrency from "../Utils/roundCurrency";
+import RoundCurrency from "../Utils/RoundCurrency";
 
 const ExpenseForm = (props) => {
   const [enteredTitle, setEnteredTitle] = useState("");
@@ -22,7 +22,7 @@ const ExpenseForm = (props) => {
 
     const expenseData = {
       title: enteredTitle,
-      amount: roundCurrency(enteredAmount),
+      amount: RoundCurrency(enteredAmount),
       date: new Date(enteredDate),
     };
     props.onSaveExpenseData(expenseData);
