@@ -24,7 +24,7 @@ const ModalViewEdit = (props) => {
         aria-describedby='modal-modal-description'>
         <Box sx={statusModalStyle}>
           <Typography id='modal-modal-title' variant='h6' component='h2' align='center'>
-            {props.statusModalTitle}
+            View/Edit Expense
           </Typography>
           <Typography id='modal-modal-description' sx={{ mt: 2 }} align='center'>
             Expense ID: {props.editExpenseId}

@@ -131,7 +131,6 @@ const App = () => {
         <ModalViewEdit
           statusModalOpen={viewEditModalOpen}
           handleStatusModalClose={handleViewEditModalClose}
-          statusModalTitle='View/Edit Expense'
           editExpenseId={editExpenseId}
         />
       )}
