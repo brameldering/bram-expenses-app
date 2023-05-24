@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./ExpenseForm.css";
 import RoundCurrency from "../Utils/RoundCurrency";
+import Button from "../UI/Button";
 
 const ExpenseForm = (props) => {
   const [enteredTitle, setEnteredTitle] = useState("");
@@ -61,10 +62,10 @@ const ExpenseForm = (props) => {
       </div>
 
       <div className='new-expense__actions'>
-        <button type='button' onClick={props.onCancel}>
+        <Button type='button' onClick={props.onCancel}>
           Cancel
-        </button>
-        <button type='submit'>Add Expense</button>
+        </Button>
+        <Button type='submit'>Add Expense</Button>
       </div>
     </form>
   );

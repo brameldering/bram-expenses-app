@@ -5,7 +5,8 @@ import NewExpense from "./components/NewExpense/NewExpense";
 import Expenses from "./components/Expenses/Expenses";
 import Message from "./components/UI/Message";
 import CalculateNextId from "./components/Utils/CalculateNextId";
-import ModalViewEdit from "./components/UI/ModalViewEdit";
+// import ModalViewEdit from "./components/UI/ModalViewEdit";
+import ViewEditExpense from "./components/ViewEditExpense/ViewEditExpense";
 
 const initExpenses = [{ id: 0, date: new Date(), title: "", amount: 0 }];
 
@@ -123,7 +124,7 @@ const App = () => {
       )}
 
       {viewEditModalOpen && (
-        <ModalViewEdit
+        <ViewEditExpense
           statusModalOpen={viewEditModalOpen}
           handleStatusModalClose={handleViewEditModalClose}
           editExpenseId={editExpenseId}

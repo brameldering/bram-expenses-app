@@ -3,6 +3,7 @@ import React from "react";
 import "./ExpenseItem.css";
 import ExpenseDate from "./ExpenseDate";
 import Card from "../UI/Card";
+import Button from "../UI/Button";
 import RoundCurrency from "../Utils/RoundCurrency";
 
 export default function ExpenseItem({ item, onViewEdit }) {
@@ -17,9 +18,9 @@ export default function ExpenseItem({ item, onViewEdit }) {
         </h2>
         <div className='expense-item__price'>${RoundCurrency(item.amount)}</div>
         <div className='view-edit-expense'>
-          <button id={item.id} onClick={onViewEdit}>
+          <Button id={item.id} onClick={onViewEdit}>
             View/Edit Expense
-          </button>
+          </Button>
         </div>
       </div>
     </Card>

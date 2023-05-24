@@ -4,19 +4,8 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import ExpenseForm from "../NewExpense/ExpenseForm";
+import Card from "../UI/Card";
 import "./ViewEditExpense.css";
-
-// const statusModalStyle = {
-//   position: "absolute",
-//   top: "50%",
-//   left: "50%",
-//   transform: "translate(-50%, -50%)",
-//   width: 400,
-//   bgcolor: "background.paper",
-//   border: "2px solid #000",
-//   boxShadow: 24,
-//   p: 4,
-// };
 
 const statusModalStyle = {
   position: "absolute",
@@ -30,8 +19,6 @@ const statusModalStyle = {
 let editedExpense = { id: 1, date: new Date(2023, 3, 31), title: "Insurance", amount: 1000 };
 
 const ViewEditExpense = (props) => {
-  const [isEditing, setIsEditing] = useState(false);
-
   const existingExpenseId = props.editExpenseId;
 
   // ================================================================
@@ -57,12 +44,7 @@ const ViewEditExpense = (props) => {
     };
 
     // props.onAddExpense(editedExpense);
-    setIsEditing(false);
-  };
-
-  const stopEditingExpenseHandler = () => {
-    console.log("stopEditingExpenseHandler called");
-    setIsEditing(false);
+    //setIsEditing(false);
   };
 
   return (
@@ -72,13 +54,13 @@ const ViewEditExpense = (props) => {
         onClose={props.handleStatusModalClose}
         aria-labelledby='modal-modal-title'
         aria-describedby='modal-modal-description'>
-        <div className='view-edit-expense'>
+        <Card className='view-edit-expense'>
           <ExpenseForm
             existingExpense={editedExpense}
             onSaveExpenseData={saveExpensesHandler}
-            onCancel={stopEditingExpenseHandler}
+            onCancel={props.handleStatusModalClose}
           />
-        </div>
+        </Card>
       </Modal>
     </>
   );
