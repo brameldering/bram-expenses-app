@@ -3,14 +3,9 @@ import axios from "axios";
 
 import NewExpense from "./components/NewExpense/NewExpense";
 import Expenses from "./components/Expenses/Expenses";
-import ModalStatusMessage from "./components/UI/ModalStatusMessage";
+import Message from "./components/UI/Message";
 import CalculateNextId from "./components/Utils/CalculateNextId";
 import ModalViewEdit from "./components/UI/ModalViewEdit";
-
-// const initExpenses = [
-//   { id: 1, date: new Date(2023, 3, 31), title: "Insurance", amount: 1000 },
-//   { id: 2, date: new Date(2023, 5, 1), title: "Birds", amount: 1232.82 },
-// ];
 
 const initExpenses = [{ id: 0, date: new Date(), title: "", amount: 0 }];
 
@@ -119,7 +114,7 @@ const App = () => {
       <NewExpense onAddExpense={addExpenseHandler} />
 
       {statusModalOpen && (
-        <ModalStatusMessage
+        <Message
           statusModalOpen={statusModalOpen}
           handleStatusModalClose={handleStatusModalClose}
           statusModalTitle='New Expense'
@@ -138,14 +133,6 @@ const App = () => {
       <Expenses items={expenses} onViewEditApp={viewEditHandler} />
     </div>
   );
-  // ================================================================
-  // Traditional React JavaScript
-  // return React.createElement(
-  //   "div",
-  //   {},
-  //   React.createElement("h2", {}, "Expense list React"),
-  //   React.createElement(Expenses, { items: expenses }, "")
-  // );
 };
 
 export default App;

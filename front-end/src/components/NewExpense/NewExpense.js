@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import ExpenseForm from "./ExpenseForm";
+import Card from "../UI/Card";
 import "./NewExpense.css";
 
 const NewExpense = (props) => {
@@ -23,7 +24,7 @@ const NewExpense = (props) => {
   };
 
   return (
-    <div className='new-expense'>
+    <Card className='new-expense'>
       {!isEntering && <button onClick={startEnteringExpenseHandler}>Add New Expense</button>}
       {isEntering && (
         <ExpenseForm
@@ -31,7 +32,7 @@ const NewExpense = (props) => {
           onCancel={stopEnteringExpenseHandler}
         />
       )}
-    </div>
+    </Card>
   );
 };
 

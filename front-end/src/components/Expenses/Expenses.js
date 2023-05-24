@@ -25,11 +25,11 @@ export default function Expenses(props) {
 
   return (
     <div>
-      <Card className='expenses'>
+      <div className='expenses'>
         <ExpensesFilter selected={filteredYear} onChangeFilter={filterChangeHandler} />
         <ExpensesChart items={filteredExpenses} />
         <ExpensesList items={filteredExpenses} onViewEditExpenses={expenseViewEditHandler} />
-      </Card>
+      </div>
     </div>
   );
 }

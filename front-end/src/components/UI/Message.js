@@ -1,8 +1,9 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
+import "./Message.css";
 
-const statusModalStyle = {
+const messageStyle = {
   position: "absolute",
   top: "50%",
   left: "50%",
@@ -14,7 +15,7 @@ const statusModalStyle = {
   p: 4,
 };
 
-const ModalStatusMessage = (props) => {
+const Message = (props) => {
   return (
     <>
       <Modal
@@ -22,7 +23,7 @@ const ModalStatusMessage = (props) => {
         onClose={props.handleStatusModalClose}
         aria-labelledby='modal-modal-title'
         aria-describedby='modal-modal-description'>
-        <Box sx={statusModalStyle}>
+        <Box sx={messageStyle}>
           <Typography id='modal-modal-title' variant='h6' component='h2' align='center'>
             {props.statusModalTitle}
           </Typography>
@@ -35,4 +36,4 @@ const ModalStatusMessage = (props) => {
   );
 };
 
-export default ModalStatusMessage;
+export default Message;
