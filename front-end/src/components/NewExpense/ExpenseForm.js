@@ -37,7 +37,7 @@ const ExpenseForm = (props) => {
       <div className='expense-form__controls'>
         <div className='expense-form__control'>
           <label>Title</label>
-          <input type='text' value={enteredTitle} onChange={titleChangeHandler} />
+          <input type='text' value={enteredTitle} onChange={titleChangeHandler} autoFocus />
         </div>
         <div className='expense-form__control'>
           <label>Amount</label>

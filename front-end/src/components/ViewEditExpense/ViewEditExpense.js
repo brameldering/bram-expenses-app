@@ -1,19 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
 import ExpenseForm from "../NewExpense/ExpenseForm";
 import Card from "../UI/Card";
-import "./ViewEditExpense.css";
-
-const statusModalStyle = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  boxShadow: 24,
-};
+import classes from "./ViewEditExpense.module.css";
 
 let editedExpense = { id: 1, date: new Date(2023, 3, 31), title: "Insurance", amount: 1000 };
 
@@ -47,21 +36,18 @@ const ViewEditExpense = (props) => {
   };
 
   return (
-    <>
-      <Modal
-        open={props.statusModalOpen}
-        onClose={props.handleStatusModalClose}
-        aria-labelledby='modal-modal-title'
-        aria-describedby='modal-modal-description'>
-        <Card className='view-edit-expense'>
-          <ExpenseForm
-            existingExpense={editedExpense}
-            onSaveExpenseData={saveExpensesHandler}
-            onCancel={props.handleStatusModalClose}
-          />
-        </Card>
-      </Modal>
-    </>
+    <div className={classes.backdrop} onClick={props.onViewEditExpenseClose}>
+      <Card className={classes.modal}>
+        <header className={classes.header}>
+          <h2>View/Edit Expense</h2>
+        </header>
+        <ExpenseForm
+          existingExpense={editedExpense}
+          onSaveExpenseData={saveExpensesHandler}
+          onCancel={props.onViewEditExpenseClose}
+        />
+      </Card>
+    </div>
   );
 };
 

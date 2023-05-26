@@ -5,15 +5,13 @@ import NewExpense from "./components/NewExpense/NewExpense";
 import Expenses from "./components/Expenses/Expenses";
 import Message from "./components/UI/Message";
 import CalculateNextId from "./components/Utils/CalculateNextId";
-// import ModalViewEdit from "./components/UI/ModalViewEdit";
 import ViewEditExpense from "./components/ViewEditExpense/ViewEditExpense";
 
 const initExpenses = [{ id: 0, date: new Date(), title: "", amount: 0 }];
 
 const App = () => {
   const [expenses, setExpenses] = useState(initExpenses);
-  const [statusMessage, setStatusMessage] = useState("");
-  const [statusModalOpen, setStatusModalOpen] = useState(false);
+  const [message, setMessage] = useState(); // {header: "", body: ""}
   const [viewEditModalOpen, setViewEditModalOpen] = useState(false);
   const [editExpenseId, setEditExpenseId] = useState(0);
   const [triggerRefresh, setTriggerRefresh] = useState(false);
@@ -37,8 +35,8 @@ const App = () => {
   // ================================================================
 
   // close handler for status message modal
-  const handleStatusModalClose = () => {
-    setStatusModalOpen(false);
+  const handleMessageClose = () => {
+    setMessage(undefined); // Clear message object so that the modal is not displayed
   };
 
   // close handler for view/edit modal
@@ -61,8 +59,10 @@ const App = () => {
       !(d instanceof Date && !isNaN(d))
     ) {
       // Display error message in Modal
-      setStatusMessage(`Title, Amount, and Date are required and need to be valid.`);
-      setStatusModalOpen(true);
+      setMessage({
+        header: `Add New Expense`,
+        body: `Title, Amount, and Date are required and need to be valid.`,
+      });
     } else {
       // Calculate nextId and complete the newExpense object with id and dateAdded
       const nextId = CalculateNextId(expenses);
@@ -83,18 +83,19 @@ const App = () => {
         // Check response.status and display status message
         if (response.status !== 200) {
           console.log("setaddNewExpenseMessage: Error: response.status !== 200.");
-          setStatusMessage(
-            `Error adding expense "${newExpense.title}", response.status: ${response.status}.`
-          );
+          setMessage({
+            header: `Add New Expense`,
+            body: `Error adding expense "${newExpense.title}", response.status: ${response.status}.`,
+          });
         } else {
           console.log("setaddNewExpenseMessage: Expense added successfully.");
-          setStatusMessage(`Expense "${newExpense.title}" added successfully.`);
+          setMessage({
+            header: `Add New Expense`,
+            body: `Expense "${newExpense.title}" added successfully.`,
+          });
         }
         // Reload the expenses list from database
         setTriggerRefresh(!triggerRefresh);
-
-        // Display status message in Modal
-        setStatusModalOpen(true);
       });
     }
   };
@@ -117,19 +118,12 @@ const App = () => {
       {viewEditModalOpen && (
         <ViewEditExpense
           statusModalOpen={viewEditModalOpen}
-          handleStatusModalClose={handleViewEditModalClose}
+          onViewEditExpenseClose={handleViewEditModalClose}
           editExpenseId={editExpenseId}
         />
       )}
 
-      {statusModalOpen && (
-        <Message
-          statusModalOpen={statusModalOpen}
-          handleStatusModalClose={handleStatusModalClose}
-          statusModalTitle='New Expense'
-          statusModalMessage={statusMessage}
-        />
-      )}
+      {message && <Message onMessageClose={handleMessageClose} message={message} />}
       <Expenses items={expenses} onViewEditApp={viewEditHandler} />
     </div>
   );
