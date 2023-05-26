@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import ExpenseForm from "../NewExpense/ExpenseForm";
 import Card from "../UI/Card";

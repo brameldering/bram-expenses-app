@@ -114,15 +114,6 @@ const App = () => {
     <div>
       <NewExpense onAddExpense={addExpenseHandler} />
 
-      {statusModalOpen && (
-        <Message
-          statusModalOpen={statusModalOpen}
-          handleStatusModalClose={handleStatusModalClose}
-          statusModalTitle='New Expense'
-          statusModalMessage={statusMessage}
-        />
-      )}
-
       {viewEditModalOpen && (
         <ViewEditExpense
           statusModalOpen={viewEditModalOpen}
@@ -131,6 +122,14 @@ const App = () => {
         />
       )}
 
+      {statusModalOpen && (
+        <Message
+          statusModalOpen={statusModalOpen}
+          handleStatusModalClose={handleStatusModalClose}
+          statusModalTitle='New Expense'
+          statusModalMessage={statusMessage}
+        />
+      )}
       <Expenses items={expenses} onViewEditApp={viewEditHandler} />
     </div>
   );

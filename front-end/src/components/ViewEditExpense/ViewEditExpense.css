@@ -1,59 +1,12 @@
-/* .view-edit-expense {
-  background-color: rgb(82, 113, 75);
-  padding: 1rem;
-  margin: 2rem auto;
-  width: 50rem;
-  max-width: 95%;
-  border-radius: 12px;
-  text-align: center;
-  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);
-} */
-
-/* .new-expense {
-  background-color: #a892ee;
-  padding: 1rem;
-  margin: 2rem auto;
-  width: 50rem;
-  max-width: 95%;
-  border-radius: 12px;
-  text-align: center;
-  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);
-} */
-
 .view-edit-expense {
-  position: "absolute";
-  /* top: "50%";
-  left: "50%"; */
-  /* transform: "translate(-50%, -50%)"; */
-  width: 100rem;
-  background-color: "background.paper";
-  border: "2px solid #000";
-  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);
-}
-
-.view-edit-expense__controls {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-bottom: 1rem;
-  text-align: left;
-}
-
-.view-edit-expense__control label {
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-  display: block;
-}
-
-.view-edit-expense__control input {
-  font: inherit;
-  padding: 0.5rem;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  width: 20rem;
-  max-width: 100%;
-}
-
-.view-edit-expense__actions {
-  text-align: right;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 50rem;
+  max-width: 95%;
+  margin: 2rem auto;
+  padding: 1rem;
+  text-align: center;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
 }

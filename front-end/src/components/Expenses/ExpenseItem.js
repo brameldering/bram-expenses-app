@@ -13,15 +13,11 @@ export default function ExpenseItem({ item, onViewEdit }) {
         <ExpenseDate date={item.date} />
       </div>
       <div className='expense-item__description'>
-        <h2>
-          {item.title} ID: {item.id}
-        </h2>
+        <h2>{item.title}</h2>
         <div className='expense-item__price'>${RoundCurrency(item.amount)}</div>
-        <div className='view-edit-expense'>
-          <Button id={item.id} onClick={onViewEdit}>
-            View/Edit Expense
-          </Button>
-        </div>
+        <Button id={item.id} onClick={onViewEdit}>
+          View/Edit Expense
+        </Button>
       </div>
     </Card>
   );
