@@ -13,11 +13,11 @@ app.get("/api/expenses", async (req, res) => {
 });
 
 // api to get a single expense based on title
-app.get("/api/expenses/:title", async (req, res) => {
-  console.log("app.get(/api/expenses/:title)");
-  // console.log(db);
-  const { title } = req.params;
-  const expense = await db.collection("expenses").findOne({ title });
+app.get("/api/expenses/:id", async (req, res) => {
+  console.log("app.get(/api/expenses/:id)");
+  const id = req.params.id;
+  console.log("id: " + id);
+  const expense = await db.collection("expenses").findOne({ id: parseInt(id) });
   res.json(expense);
 });
 

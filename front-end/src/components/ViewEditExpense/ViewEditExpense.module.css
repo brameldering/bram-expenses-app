@@ -12,6 +12,7 @@
   position: fixed;
   top: 30vh;
   width: 100%;
+  z-index: 100;
   overflow: hidden;
 }
 

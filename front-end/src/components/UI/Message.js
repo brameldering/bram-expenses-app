@@ -1,4 +1,5 @@
-import { useEffect, useCallback } from "react";
+import React, { useEffect, useCallback } from "react";
+import ReactDOM from "react-dom";
 import Card from "./Card";
 import Button from "./Button";
 
@@ -7,6 +8,28 @@ import classes from "./Message.module.css";
 const KEY_NAME_ESC = "Escape";
 const KEY_NAME_ENTER = "Enter";
 const KEY_EVENT_TYPE = "keyup";
+
+const Backdrop = (props) => {
+  return <div className={classes.backdrop} onClick={props.onMessageClose}></div>;
+};
+
+const ModalOverlay = (props) => {
+  return (
+    <Card className={classes.modal}>
+      <header className={classes.header}>
+        <h2>{props.message.header}</h2>
+      </header>
+      <div className={classes.content}>
+        <p>{props.message.body}</p>
+      </div>
+      <footer className={classes.actions}>
+        <Button onClick={props.onMessageClose} autofocus={true}>
+          Ok
+        </Button>
+      </footer>
+    </Card>
+  );
+};
 
 // Expected props:
 //   message: {header: "header", body: "body"}
@@ -31,21 +54,17 @@ const Message = (props) => {
   }, [handleEscKey]);
 
   return (
-    <div className={classes.backdrop} onClick={props.onMessageClose}>
-      <Card className={classes.modal}>
-        <header className={classes.header}>
-          <h2>{props.message.header}</h2>
-        </header>
-        <div className={classes.content}>
-          <p>{props.message.body}</p>
-        </div>
-        <footer className={classes.actions}>
-          <Button onClick={props.onMessageClose} autofocus={true}>
-            Ok
-          </Button>
-        </footer>
-      </Card>
-    </div>
+    <React.Fragment>
+      {ReactDOM.createPortal(
+        <Backdrop onMessageClose={props.onMessageClose} />,
+        document.getElementById("backdrop-root")
+      )}
+      {ReactDOM.createPortal(
+        <ModalOverlay onMessageClose={props.onMessageClose} message={props.message} />,
+        document.getElementById("overlay-root")
+      )}
+      ;
+    </React.Fragment>
   );
 };
 
