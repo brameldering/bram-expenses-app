@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ExpenseForm from "./ExpenseForm";
-import Card from "../UI/Card/Card";
-import Button from "../UI/Button/Button";
+import Card from "../../UI/Card/Card";
+import Button from "../../UI/Button/Button";
 import "./NewExpense.css";
 
 const NewExpense = (props) => {

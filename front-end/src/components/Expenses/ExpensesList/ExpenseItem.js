@@ -2,9 +2,9 @@ import React from "react";
 
 import "./ExpenseItem.css";
 import ExpenseDate from "./ExpenseDate";
-import Card from "../UI/Card/Card";
-import Button from "../UI/Button/Button";
-import RoundCurrency from "../Utils/RoundCurrency";
+import Card from "../../UI/Card/Card";
+import Button from "../../UI/Button/Button";
+import RoundCurrency from "../../Utils/RoundCurrency";
 
 export default function ExpenseItem({ item, onViewEdit }) {
   return (

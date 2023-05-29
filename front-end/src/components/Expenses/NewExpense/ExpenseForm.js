@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import "./ExpenseForm.css";
-import RoundCurrency from "../Utils/RoundCurrency";
-import Button from "../UI/Button/Button";
+import RoundCurrency from "../../Utils/RoundCurrency";
+import Button from "../../UI/Button/Button";
 
 const ExpenseForm = (props) => {
   const enteredTitleRef = useRef();

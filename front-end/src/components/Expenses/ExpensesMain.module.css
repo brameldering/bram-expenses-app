@@ -1,0 +1,17 @@
+.main {
+  width: 100%;
+  max-width: 60rem;
+  margin: 1.5rem auto;
+  padding: 1rem;
+  text-align: left;
+  background-color: #51584f;
+}
+
+@media (min-width: 768px) {
+  .main {
+    width: 100%;
+    max-width: 60rem;
+    margin: 3rem auto;
+    padding: 2rem;
+  }
+}
