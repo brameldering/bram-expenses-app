@@ -3,7 +3,7 @@ import axios from "axios";
 
 import NewExpense from "./components/NewExpense/NewExpense";
 import Expenses from "./components/Expenses/Expenses";
-import Message from "./components/UI/Message";
+import Message from "./components/UI/Message/Message";
 import CalculateNextId from "./components/Utils/CalculateNextId";
 import ViewEditExpense from "./components/ViewEditExpense/ViewEditExpense";
 

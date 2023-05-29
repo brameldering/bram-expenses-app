@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import axios from "axios";
 import ExpenseForm from "../NewExpense/ExpenseForm";
-import Card from "../UI/Card";
+import Card from "../UI/Card/Card";
 import classes from "./ViewEditExpense.module.css";
 
 const Backdrop = (props) => {
