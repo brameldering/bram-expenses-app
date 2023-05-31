@@ -4,13 +4,13 @@
   left: 0;
   width: 100%;
   height: 100vh;
-  z-index: 10;
+  z-index: 0;
   background: rgba(87, 87, 87, 0.75);
 }
 
 .modal {
   position: fixed;
-  top: 30vh;
+  top: 20%;
   left: 10%;
   width: 80%;
   z-index: 100;
@@ -18,8 +18,19 @@
 }
 
 .header {
-  background: #4f005f;
   padding: 1rem;
+}
+
+.header.info {
+  background: green;
+}
+
+.header.warning {
+  background: orange;
+}
+
+.header.error {
+  background: red;
 }
 
 .header h2 {
@@ -30,12 +41,14 @@
 
 .content {
   padding: 1rem;
+  background-color: white;
 }
 
 .actions {
   padding: 1rem;
   display: flex;
   justify-content: flex-end;
+  background-color: white;
 }
 
 @media (min-width: 768px) {

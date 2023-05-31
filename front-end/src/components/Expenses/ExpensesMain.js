@@ -5,15 +5,15 @@ import NewExpense from "./NewExpense/NewExpense";
 import Expenses from "./ExpensesList/Expenses";
 import ViewEditExpense from "./ViewEditExpense/ViewEditExpense";
 
-import Card from "../UI/Card/Card";
 import Message from "../UI/Message/Message";
 import CalculateNextId from "../Utils/CalculateNextId";
+import { MESSAGE_TYPE } from "../UI/Message/MessageTypeClassName";
 
 import classes from "./ExpensesMain.module.css";
 
 const initExpenses = [{ id: 0, date: new Date(), title: "", amount: 0 }];
 
-const App = () => {
+const ExpensesMain = () => {
   const [expenses, setExpenses] = useState(initExpenses);
   const [message, setMessage] = useState(); // {header: "", body: ""}
   const [viewEditModalOpen, setViewEditModalOpen] = useState(false);
@@ -64,6 +64,7 @@ const App = () => {
     ) {
       // Display error message in Modal
       setMessage({
+        type: MESSAGE_TYPE.ERROR,
         header: `Add New Expense`,
         body: `Title, Amount, and Date are required and need to be valid.`,
       });
@@ -88,12 +89,14 @@ const App = () => {
         if (response.status !== 200) {
           console.log("setaddNewExpenseMessage: Error: response.status !== 200.");
           setMessage({
+            type: MESSAGE_TYPE.ERROR,
             header: `Add New Expense`,
             body: `Error adding expense "${newExpense.title}", response.status: ${response.status}.`,
           });
         } else {
           console.log("setaddNewExpenseMessage: Expense added successfully.");
           setMessage({
+            type: MESSAGE_TYPE.INFO,
             header: `Add New Expense`,
             body: `Expense "${newExpense.title}" added successfully.`,
           });
@@ -117,7 +120,7 @@ const App = () => {
   // TO DO Remove statusModelOpen from below
   return (
     <div className={classes.main}>
-      <NewExpense onAddExpense={addExpenseHandler} />
+      {message && <Message onMessageClose={handleMessageClose} message={message} />}
 
       {viewEditModalOpen && (
         <ViewEditExpense
@@ -127,10 +130,11 @@ const App = () => {
         />
       )}
 
-      {message && <Message onMessageClose={handleMessageClose} message={message} />}
+      <NewExpense onAddExpense={addExpenseHandler} />
+
       <Expenses items={expenses} onViewEditApp={viewEditHandler} />
     </div>
   );
 };
 
-export default App;
+export default ExpensesMain;

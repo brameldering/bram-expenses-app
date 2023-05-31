@@ -4,6 +4,7 @@ import Card from "../Card/Card";
 import Button from "../Button/Button";
 
 import classes from "./Message.module.css";
+import MessageTypeClassName from "./MessageTypeClassName";
 
 const KEY_NAME_ESC = "Escape";
 const KEY_NAME_ENTER = "Enter";
@@ -14,9 +15,11 @@ const Backdrop = (props) => {
 };
 
 const ModalOverlay = (props) => {
+  const classNameString = MessageTypeClassName(props.message.type);
+  console.log("classNameString: " + classNameString);
   return (
     <Card className={classes.modal}>
-      <header className={classes.header}>
+      <header className={classNameString}>
         <h2>{props.message.header}</h2>
       </header>
       <div className={classes.content}>

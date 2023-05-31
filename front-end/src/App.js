@@ -9,13 +9,23 @@ const App = () => {
   const [message, setMessage] = useState(); // {header: "", body: ""}
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  useEffect(() => {
+    const storedLogInInformation = localStorage.getItem("isLoggedIn");
+
+    if (storedLogInInformation === "1") {
+      setIsLoggedIn(true);
+    }
+  }, []);
+
   const loginHandler = (email, password) => {
     // We should of course check email and password
     // But it's just a dummy/ demo anyways
+    localStorage.setItem("isLoggedIn", "1");
     setIsLoggedIn(true);
   };
 
   const logoutHandler = () => {
+    localStorage.setItem("isLoggedIn", "0");
     setIsLoggedIn(false);
   };
 
@@ -28,9 +38,9 @@ const App = () => {
     <React.Fragment>
       <MainHeader isAuthenticated={isLoggedIn} onLogout={logoutHandler} />
       <main>
+        {message && <Message onMessageClose={handleMessageClose} message={message} />}
         {!isLoggedIn && <Login onLogin={loginHandler} />}
         {isLoggedIn && <ExpensesMain onLogout={logoutHandler} />}
-        {message && <Message onMessageClose={handleMessageClose} message={message} />}
       </main>
     </React.Fragment>
   );

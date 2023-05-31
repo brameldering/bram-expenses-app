@@ -1,6 +1,7 @@
-import React from 'react';
+import React from "react";
 
-import classes from './Navigation.module.css';
+import Button from "../UI/Button/Button";
+import classes from "./Navigation.module.css";
 
 const Navigation = (props) => {
   return (
@@ -8,17 +9,17 @@ const Navigation = (props) => {
       <ul>
         {props.isLoggedIn && (
           <li>
-            <a href="/">Users</a>
+            <a href='/'>Users</a>
           </li>
         )}
         {props.isLoggedIn && (
           <li>
-            <a href="/">Admin</a>
+            <a href='/'>Admin</a>
           </li>
         )}
         {props.isLoggedIn && (
           <li>
-            <button onClick={props.onLogout}>Logout</button>
+            <Button onClick={props.onLogout}>Logout</Button>
           </li>
         )}
       </ul>
