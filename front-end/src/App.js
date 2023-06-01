@@ -4,6 +4,7 @@ import ExpensesMain from "./components/Expenses/ExpensesMain";
 import Login from "./components/Login/Login";
 import MainHeader from "./components/MainHeader/MainHeader";
 import Message from "./components/UI/Message/Message";
+import AuthContext from "./store/auth-context";
 
 const App = () => {
   const [message, setMessage] = useState(); // {header: "", body: ""}
@@ -35,14 +36,14 @@ const App = () => {
   };
 
   return (
-    <React.Fragment>
-      <MainHeader isAuthenticated={isLoggedIn} onLogout={logoutHandler} />
+    <AuthContext.Provider value={{ isLoggedIn: isLoggedIn }}>
+      <MainHeader onLogout={logoutHandler} />
       <main>
         {message && <Message onMessageClose={handleMessageClose} message={message} />}
         {!isLoggedIn && <Login onLogin={loginHandler} />}
         {isLoggedIn && <ExpensesMain onLogout={logoutHandler} />}
       </main>
-    </React.Fragment>
+    </AuthContext.Provider>
   );
 };
 
