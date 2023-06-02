@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext } from "react";
 
 import ExpensesMain from "./components/Expenses/ExpensesMain";
 import Login from "./components/Login/Login";
@@ -8,27 +8,7 @@ import AuthContext from "./store/auth-context";
 
 const App = () => {
   const [message, setMessage] = useState(); // {header: "", body: ""}
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    const storedLogInInformation = localStorage.getItem("isLoggedIn");
-
-    if (storedLogInInformation === "1") {
-      setIsLoggedIn(true);
-    }
-  }, []);
-
-  const loginHandler = (email, password) => {
-    // We should of course check email and password
-    // But it's just a dummy/ demo anyways
-    localStorage.setItem("isLoggedIn", "1");
-    setIsLoggedIn(true);
-  };
-
-  const logoutHandler = () => {
-    localStorage.setItem("isLoggedIn", "0");
-    setIsLoggedIn(false);
-  };
+  const context = useContext(AuthContext);
 
   // close handler for status message modal
   const handleMessageClose = () => {
@@ -36,14 +16,14 @@ const App = () => {
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn: isLoggedIn, onLogout: logoutHandler }}>
+    <React.Fragment>
       <MainHeader />
       <main>
         {message && <Message onMessageClose={handleMessageClose} message={message} />}
-        {!isLoggedIn && <Login onLogin={loginHandler} />}
-        {isLoggedIn && <ExpensesMain />}
+        {!context.isLoggedIn && <Login />}
+        {context.isLoggedIn && <ExpensesMain />}
       </main>
-    </AuthContext.Provider>
+    </React.Fragment>
   );
 };
 
