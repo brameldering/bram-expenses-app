@@ -8,7 +8,7 @@ import AuthContext from "./store/auth-context";
 
 const App = () => {
   const [message, setMessage] = useState(); // {header: "", body: ""}
-  const context = useContext(AuthContext);
+  const authContext = useContext(AuthContext);
 
   // close handler for status message modal
   const handleMessageClose = () => {
@@ -20,8 +20,8 @@ const App = () => {
       <MainHeader />
       <main>
         {message && <Message onMessageClose={handleMessageClose} message={message} />}
-        {!context.isLoggedIn && <Login />}
-        {context.isLoggedIn && <ExpensesMain />}
+        {!authContext.isLoggedIn && <Login />}
+        {authContext.isLoggedIn && <ExpensesMain />}
       </main>
     </React.Fragment>
   );

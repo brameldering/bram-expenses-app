@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 
 import NewExpense from "./NewExpense/NewExpense";
@@ -8,6 +8,7 @@ import ViewEditExpense from "./ViewEditExpense/ViewEditExpense";
 import Message from "../UI/Message/Message";
 import CalculateNextId from "../Utils/CalculateNextId";
 import { MESSAGE_TYPE } from "../UI/Message/MessageTypeClassName";
+import LoadingIndicator from "../UI/LoadingIndicator/LoadingIndicator";
 
 import classes from "./ExpensesMain.module.css";
 
@@ -15,27 +16,62 @@ const initExpenses = [{ id: 0, date: new Date(), title: "", amount: 0 }];
 
 const ExpensesMain = () => {
   const [expenses, setExpenses] = useState(initExpenses);
-  const [message, setMessage] = useState(); // {header: "", body: ""}
+  const [message, setMessage] = useState(null); // {header: "", body: ""}
   const [viewEditModalOpen, setViewEditModalOpen] = useState(false);
   const [editExpenseId, setEditExpenseId] = useState(0);
   const [triggerRefresh, setTriggerRefresh] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const errorHandler = (error) => {
+    let errorMessage = "";
+    if (error.response) {
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx
+      errorMessage = error.response.status;
+      console.log(error.response.data);
+      console.log(error.response.status);
+      console.log(error.response.headers);
+    } else if (error.request) {
+      // The request was made but no response was received
+      // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+      // http.ClientRequest in node.js
+      errorMessage = error.request;
+      console.log(error.request);
+    } else {
+      // Something happened in setting up the request that triggered an Error
+      errorMessage = error.message;
+      console.log("Error", error.message);
+    }
+    //errorMessage = error.config;
+    console.log(error.config);
+    return errorMessage;
+  };
 
   // ================================================================
   // Load Expenses from the database using axios API to server.js
-  useEffect(() => {
-    console.log("====================================");
-    console.log("useEffect called");
-    const loadExpenses = async () => {
-      const response = await axios.get(`/api/expenses`);
-      console.log("response.data");
-      console.log(response.data);
+  const loadExpenses = useCallback(async () => {
+    setIsLoading(true);
+    let errorMessage = null;
+    console.log("loadExpenses");
+    const response = await axios.get(`/api/expenses`).catch(function (error) {
+      errorMessage = errorHandler(error);
+    });
+    console.log("response");
+    console.log(response);
+    if (!errorMessage) {
+      // all ok
       response.data.forEach((expense) => {
         expense.date = new Date(expense.date); // convert date string to Date object for each expense
       });
       setExpenses(response.data);
-    };
-    loadExpenses(); // this inner function is defined above and called here because useEffect cannot be async
-  }, [triggerRefresh]);
+    }
+    setIsLoading(false);
+  }, []);
+
+  useEffect(() => {
+    console.log("ExpensesMain useEffect called");
+    loadExpenses();
+  }, [loadExpenses, triggerRefresh]);
   // ================================================================
 
   // close handler for status message modal
@@ -52,9 +88,7 @@ const ExpensesMain = () => {
   // Handle Add New Expense
   // ================================================================
   const addExpenseHandler = async (enteredExpenseData) => {
-    console.log("====================================");
     console.log("addExpenseHandler called");
-    console.log(enteredExpenseData);
     // test that input is valid
     const d = new Date(enteredExpenseData.date);
     if (
@@ -130,9 +164,24 @@ const ExpensesMain = () => {
         />
       )}
 
-      <NewExpense onAddExpense={addExpenseHandler} />
+      {!isLoading && <NewExpense onAddExpense={addExpenseHandler} />}
 
-      <Expenses items={expenses} onViewEditApp={viewEditHandler} />
+      {isLoading && (
+        <div className={classes["loading-indicator"]}>
+          <LoadingIndicator
+            segmentWidth={10}
+            segmentLength={20}
+            spacing={10}
+            color={{
+              red: 225,
+              green: 225,
+              blue: 225,
+              alpha: 0.85,
+            }}
+          />
+        </div>
+      )}
+      {!isLoading && <Expenses items={expenses} onViewEditApp={viewEditHandler} />}
     </div>
   );
 };

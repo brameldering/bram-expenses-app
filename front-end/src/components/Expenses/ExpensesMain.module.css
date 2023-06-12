@@ -7,6 +7,14 @@
   background-color: #51584f;
 }
 
+.loading-indicator {
+  position: relative;
+  top: 20vh;
+  width: 100%;
+  overflow: hidden;
+  text-align: center;
+}
+
 @media (min-width: 768px) {
   .main {
     width: 100%;
