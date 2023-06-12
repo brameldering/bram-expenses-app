@@ -1,8 +1,10 @@
 import express from "express";
+import cors from "cors";
 import { db, connectToDb } from "./db.js";
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 // api to get all expenses
 app.get("/api/expenses", async (req, res) => {

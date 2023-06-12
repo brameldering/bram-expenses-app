@@ -1,7 +1,4 @@
 const CalculateNextId = (items) => {
-  console.log("calculateNextId: items: ");
-  console.log(items);
-
   let nextId = 1;
   // loop through the expenses array and find the highest id
   items.forEach((item) => {
@@ -10,6 +7,7 @@ const CalculateNextId = (items) => {
     }
   });
   nextId += 1;
+  console.log("calculateNextId: " + nextId);
   return nextId;
 };
 

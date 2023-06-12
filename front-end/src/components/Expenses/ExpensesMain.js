@@ -6,140 +6,75 @@ import Expenses from "./ExpensesList/Expenses";
 import ViewEditExpense from "./ViewEditExpense/ViewEditExpense";
 
 import Message from "../UI/Message/Message";
-import CalculateNextId from "../Utils/CalculateNextId";
 import { MESSAGE_TYPE } from "../UI/Message/MessageTypeClassName";
 import LoadingIndicator from "../UI/LoadingIndicator/LoadingIndicator";
+import useHttp from "../../hooks/use-http";
 
 import classes from "./ExpensesMain.module.css";
 
-const initExpenses = [{ id: 0, date: new Date(), title: "", amount: 0 }];
+// TO DO: Define everything in TypeScript
+// type ExpenseType = { id: number, date: Date, title: string, amount: number };
+// let expense: ExpenseType = {id: 1, date: new Date(), title: "test", amount: 1.12};
+// type ExpensesType = Array<ExpenseType>;  (let expenses: ExpensesType = [expense, expense2]; )
 
 const ExpensesMain = () => {
-  const [expenses, setExpenses] = useState(initExpenses);
+  const [expenses, setExpenses] = useState([]);
   const [message, setMessage] = useState(null); // {header: "", body: ""}
   const [viewEditModalOpen, setViewEditModalOpen] = useState(false);
   const [editExpenseId, setEditExpenseId] = useState(0);
   const [triggerRefresh, setTriggerRefresh] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const errorHandler = (error) => {
-    let errorMessage = "";
-    if (error.response) {
-      // The request was made and the server responded with a status code
-      // that falls out of the range of 2xx
-      errorMessage = error.response.status;
-      console.log(error.response.data);
-      console.log(error.response.status);
-      console.log(error.response.headers);
-    } else if (error.request) {
-      // The request was made but no response was received
-      // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-      // http.ClientRequest in node.js
-      errorMessage = error.request;
-      console.log(error.request);
-    } else {
-      // Something happened in setting up the request that triggered an Error
-      errorMessage = error.message;
-      console.log("Error", error.message);
-    }
-    //errorMessage = error.config;
-    console.log(error.config);
-    return errorMessage;
-  };
+  //const [isLoading, setIsLoading] = useState(false);
 
   // ================================================================
-  // Load Expenses from the database using axios API to server.js
-  const loadExpenses = useCallback(async () => {
-    setIsLoading(true);
-    let errorMessage = null;
-    console.log("loadExpenses");
-    const response = await axios.get(`/api/expenses`).catch(function (error) {
-      errorMessage = errorHandler(error);
-    });
-    console.log("response");
-    console.log(response);
-    if (!errorMessage) {
-      // all ok
-      response.data.forEach((expense) => {
-        expense.date = new Date(expense.date); // convert date string to Date object for each expense
-      });
-      setExpenses(response.data);
-    }
-    setIsLoading(false);
-  }, []);
-
+  // ===            On page loading - Fetch expenses             ====
+  // ================================================================
+  const { isLoading, errorFetching, sendRequest: fetchExpenses } = useHttp();
   useEffect(() => {
     console.log("ExpensesMain useEffect called");
-    loadExpenses();
-  }, [loadExpenses, triggerRefresh]);
+    const transformExpenses = (ExpenseObj) => {
+      console.log(ExpenseObj);
+      const loadedExpenses = [];
+      for (const expense in ExpenseObj) {
+        loadedExpenses.push({ ...ExpenseObj[expense], date: new Date(ExpenseObj[expense].date) });
+      }
+      setExpenses(loadedExpenses);
+    };
+    const requestConfig = {
+      url: "http://localhost:8000/api/expenses",
+    };
+    fetchExpenses(requestConfig, transformExpenses);
+  }, [fetchExpenses]);
   // ================================================================
-
-  // close handler for status message modal
-  const handleMessageClose = () => {
-    setMessage(undefined); // Clear message object so that the modal is not displayed
-  };
-
-  // close handler for view/edit modal
-  const handleViewEditModalClose = () => {
-    setViewEditModalOpen(false);
-  };
 
   // ================================================================
   // Handle Add New Expense
   // ================================================================
-  const addExpenseHandler = async (enteredExpenseData) => {
-    console.log("addExpenseHandler called");
-    // test that input is valid
-    const d = new Date(enteredExpenseData.date);
-    if (
-      !enteredExpenseData.title ||
-      isNaN(enteredExpenseData.amount) ||
-      !(d instanceof Date && !isNaN(d))
-    ) {
-      // Display error message in Modal
-      setMessage({
-        type: MESSAGE_TYPE.ERROR,
-        header: `Add New Expense`,
-        body: `Title, Amount, and Date are required and need to be valid.`,
-      });
-    } else {
-      // Calculate nextId and complete the newExpense object with id and dateAdded
-      const nextId = CalculateNextId(expenses);
-      const now = new Date();
-      const newExpense = {
-        ...enteredExpenseData,
-        id: nextId,
-        dateAdded: now,
-        dateAddedOffset: now.getTimezoneOffset(),
-      };
-
-      // Add Expense to the database using axios API to server.js
-      // TO DO create an synchronous call that waits for the database to be updated and wait for the error message if any
-      console.log("AddExpenseHandler: Add Expense to the database");
-      const response = await axios.post(`/api/expenses`, newExpense).then((response) => {
-        console.log("response in AddExpenseHandler: ");
-        console.log(response.status);
-        // Check response.status and display status message
-        if (response.status !== 200) {
-          console.log("setaddNewExpenseMessage: Error: response.status !== 200.");
-          setMessage({
-            type: MESSAGE_TYPE.ERROR,
-            header: `Add New Expense`,
-            body: `Error adding expense "${newExpense.title}", response.status: ${response.status}.`,
-          });
-        } else {
-          console.log("setaddNewExpenseMessage: Expense added successfully.");
-          setMessage({
-            type: MESSAGE_TYPE.INFO,
-            header: `Add New Expense`,
-            body: `Expense "${newExpense.title}" added successfully.`,
-          });
-        }
-        // Reload the expenses list from database
-        setTriggerRefresh(!triggerRefresh);
-      });
-    }
+  const expenseAddHandler = (expense) => {
+    setExpenses((prevExpenses) => prevExpenses.concat(expense));
   };
+  // console.log("AddExpenseHandler: Add Expense to the database");
+  // const response = await axios.post(`/api/expenses`, newExpense).then((response) => {
+  //   console.log("response in AddExpenseHandler: ");
+  //   console.log(response.status);
+  //   // Check response.status and display status message
+  //   if (response.status !== 200) {
+  //     console.log("setaddNewExpenseMessage: Error: response.status !== 200.");
+  //     setMessage({
+  //       type: MESSAGE_TYPE.ERROR,
+  //       header: `Add New Expense`,
+  //       body: `Error adding expense "${newExpense.title}", response.status: ${response.status}.`,
+  //     });
+  //   } else {
+  //     console.log("setaddNewExpenseMessage: Expense added successfully.");
+  //     setMessage({
+  //       type: MESSAGE_TYPE.INFO,
+  //       header: `Add New Expense`,
+  //       body: `Expense "${newExpense.title}" added successfully.`,
+  //     });
+  //   }
+  //   // Reload the expenses list from database
+  //   setTriggerRefresh(!triggerRefresh);
+  //});
 
   // ================================================================
   // Handle View/Edit Expense
@@ -151,20 +86,30 @@ const ExpensesMain = () => {
   };
 
   // ================================================================
-  // TO DO Remove statusModelOpen from below
+  // close handler for status message modal
+  const handleMessageClose = () => {
+    setMessage(undefined); // Clear message object so that the modal is not displayed
+  };
+
+  // close handler for view/edit modal
+  const handleViewEditModalClose = () => {
+    setViewEditModalOpen(false);
+  };
+  // ================================================================
+
+  // ================================================================
   return (
     <div className={classes.main}>
       {message && <Message onMessageClose={handleMessageClose} message={message} />}
 
       {viewEditModalOpen && (
         <ViewEditExpense
-          statusModalOpen={viewEditModalOpen}
           onViewEditExpenseClose={handleViewEditModalClose}
           editExpenseId={editExpenseId}
         />
       )}
 
-      {!isLoading && <NewExpense onAddExpense={addExpenseHandler} />}
+      {!isLoading && <NewExpense onAddExpense={expenseAddHandler} allExpenses={expenses} />}
 
       {isLoading && (
         <div className={classes["loading-indicator"]}>
