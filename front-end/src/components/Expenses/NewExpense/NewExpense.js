@@ -24,7 +24,6 @@ const NewExpense = (props) => {
   };
 
   const saveExpensesHandler = (enteredExpenseData) => {
-    //===================================================================
     console.log("saveExpensesHandler called");
 
     // test that input is valid
@@ -65,8 +64,6 @@ const NewExpense = (props) => {
       console.log(requestConfig);
       addTask(requestConfig, addExpenseToMainArray.bind(null, newExpense));
 
-      //===================================================================
-
       setIsEntering(false);
     }
   };
@@ -86,6 +83,7 @@ const NewExpense = (props) => {
         <ExpenseForm
           onSaveExpenseData={saveExpensesHandler}
           onCancel={stopEnteringExpenseHandler}
+          loading={isLoading}
         />
       )}
     </Card>

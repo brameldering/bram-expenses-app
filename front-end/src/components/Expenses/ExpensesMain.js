@@ -52,29 +52,6 @@ const ExpensesMain = () => {
   const expenseAddHandler = (expense) => {
     setExpenses((prevExpenses) => prevExpenses.concat(expense));
   };
-  // console.log("AddExpenseHandler: Add Expense to the database");
-  // const response = await axios.post(`/api/expenses`, newExpense).then((response) => {
-  //   console.log("response in AddExpenseHandler: ");
-  //   console.log(response.status);
-  //   // Check response.status and display status message
-  //   if (response.status !== 200) {
-  //     console.log("setaddNewExpenseMessage: Error: response.status !== 200.");
-  //     setMessage({
-  //       type: MESSAGE_TYPE.ERROR,
-  //       header: `Add New Expense`,
-  //       body: `Error adding expense "${newExpense.title}", response.status: ${response.status}.`,
-  //     });
-  //   } else {
-  //     console.log("setaddNewExpenseMessage: Expense added successfully.");
-  //     setMessage({
-  //       type: MESSAGE_TYPE.INFO,
-  //       header: `Add New Expense`,
-  //       body: `Expense "${newExpense.title}" added successfully.`,
-  //     });
-  //   }
-  //   // Reload the expenses list from database
-  //   setTriggerRefresh(!triggerRefresh);
-  //});
 
   // ================================================================
   // Handle View/Edit Expense
@@ -97,17 +74,9 @@ const ExpensesMain = () => {
   };
   // ================================================================
 
-  // ================================================================
   return (
     <div className={classes.main}>
       {message && <Message onMessageClose={handleMessageClose} message={message} />}
-
-      {viewEditModalOpen && (
-        <ViewEditExpense
-          onViewEditExpenseClose={handleViewEditModalClose}
-          editExpenseId={editExpenseId}
-        />
-      )}
 
       {!isLoading && <NewExpense onAddExpense={expenseAddHandler} allExpenses={expenses} />}
 
@@ -127,6 +96,13 @@ const ExpensesMain = () => {
         </div>
       )}
       {!isLoading && <Expenses items={expenses} onViewEditApp={viewEditHandler} />}
+
+      {viewEditModalOpen && (
+        <ViewEditExpense
+          onViewEditExpenseClose={handleViewEditModalClose}
+          editExpenseId={editExpenseId}
+        />
+      )}
     </div>
   );
 };

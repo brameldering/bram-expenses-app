@@ -31,7 +31,6 @@ const ViewEditExpense = (props) => {
   // ================================================================
   // Load Expense from the database using axios API to server.js
   useEffect(() => {
-    console.log("====================================");
     console.log("useEffect in ViewEditExpense called");
     const loadExpense = async () => {
       console.log("existingExpenseId: " + existingExpenseId);
