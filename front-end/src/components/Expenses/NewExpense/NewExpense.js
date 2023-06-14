@@ -14,7 +14,7 @@ const NewExpense = (props) => {
   const [isEntering, setIsEntering] = useState(false);
   const { isLoading, error, sendRequest: addTask } = useHttp();
 
-  // Temporary solution, this is only needed to calculate next if.
+  // Temporary solution, this is only needed to calculate next id.
   // to think of better approach, to implement as an API that gets the next ID from the database
   // but to keep in mind that the update of this next id needs to check again if the ID is still the latest
   const allExpenses = props.allExpenses;

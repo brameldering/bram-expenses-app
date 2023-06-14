@@ -10,6 +10,8 @@ const Backdrop = (props) => {
 };
 
 const ModalOverlay = (props) => {
+  console.log("ModalOverlay in ViewEditExpense, props.existingExpense: ");
+  console.log(props.existingExpense);
   return (
     <Card className={classes.modal}>
       <header className={classes.header}>
@@ -27,6 +29,7 @@ const ModalOverlay = (props) => {
 const ViewEditExpense = (props) => {
   const existingExpenseId = props.editExpenseId;
   const [existingExpense, setExistingExpense] = useState({});
+  console.log("existingExpenseId: " + existingExpenseId);
 
   // ================================================================
   // Load Expense from the database using axios API to server.js
@@ -47,8 +50,8 @@ const ViewEditExpense = (props) => {
 
   const saveExpensesHandler = (editedExpenseData) => {
     setExistingExpense(editedExpenseData);
-
-    // props.onAddExpense(editedExpense);
+    console.log("saveExpensesHandler: title: " + editedExpenseData.title);
+    //props.onSaveEditedExpense(editedExpenseData);
     //setIsEditing(false);
   };
 
