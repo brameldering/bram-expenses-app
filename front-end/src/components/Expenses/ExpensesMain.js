@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
-import axios from "axios";
+import React, { useState, useEffect } from "react";
 
 import NewExpense from "./NewExpense/NewExpense";
 import Expenses from "./ExpensesList/Expenses";
@@ -57,30 +56,34 @@ const ExpensesMain = () => {
   // Handle View/Edit Expense
   // ================================================================
   const viewEditHandler = (expenseId) => {
-    console.log("viewEditHandler in App, id: " + expenseId);
+    console.log("viewEditHandler in ExpensesMain, id: " + expenseId);
     setEditExpenseId(expenseId);
     setViewEditModalOpen(true);
   };
 
   // ================================================================
   // close handler for status message modal
-  const handleMessageClose = () => {
+  const messageCloseHandler = () => {
     setMessage(undefined); // Clear message object so that the modal is not displayed
   };
 
   // close handler for view/edit modal
-  const handleViewEditModalClose = () => {
+  const viewEditModalCloseHandler = () => {
     setViewEditModalOpen(false);
   };
   // ================================================================
 
   return (
     <div className={classes.main}>
-      {message && <Message onMessageClose={handleMessageClose} message={message} />}
+      {!isLoading && message && !viewEditModalOpen && (
+        <Message onMessageClose={messageCloseHandler} message={message} />
+      )}
 
-      {!isLoading && <NewExpense onAddExpense={expenseAddHandler} allExpenses={expenses} />}
+      {!isLoading && !message && !viewEditModalOpen && (
+        <NewExpense onAddExpense={expenseAddHandler} allExpenses={expenses} />
+      )}
 
-      {isLoading && (
+      {isLoading && !message && !viewEditModalOpen && (
         <div className={classes["loading-indicator"]}>
           <LoadingIndicator
             segmentWidth={10}
@@ -95,11 +98,13 @@ const ExpensesMain = () => {
           />
         </div>
       )}
-      {!isLoading && <Expenses items={expenses} onViewEditApp={viewEditHandler} />}
+      {!isLoading && !message && !viewEditModalOpen && (
+        <Expenses items={expenses} onViewEditMain={viewEditHandler} />
+      )}
 
-      {viewEditModalOpen && (
+      {!isLoading && !message && viewEditModalOpen && (
         <ViewEditExpense
-          onViewEditExpenseClose={handleViewEditModalClose}
+          onViewEditExpenseClose={viewEditModalCloseHandler}
           editExpenseId={editExpenseId}
         />
       )}

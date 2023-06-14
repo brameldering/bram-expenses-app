@@ -20,7 +20,7 @@ export default function Expenses(props) {
 
   const expenseViewEditHandler = (expenseId) => {
     console.log("viewEditHandler in Expenses, id: " + expenseId);
-    props.onViewEditApp(expenseId);
+    props.onViewEditMain(expenseId);
   };
 
   return (
